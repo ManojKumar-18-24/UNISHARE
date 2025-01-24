@@ -6,6 +6,7 @@ import Input from "./Input";
 import PostForm from "./postForm";
 import Button from "./Button";
 import NotificationCard from "./NotificationCard";
+import Protected from './AuthLayout'
 
 export {
     Header,
@@ -15,5 +16,6 @@ export {
     Input,
     PostForm,
     Button,
-    NotificationCard
+    NotificationCard,
+    Protected
 }
