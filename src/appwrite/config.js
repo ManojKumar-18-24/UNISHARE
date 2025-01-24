@@ -153,11 +153,7 @@ class Service {
 
   //notification service
 
-  async createNotification({
-    owner,
-    tenant,
-    post_id,
-  }) {
+  async createNotification({ owner, tenant, post_id }) {
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
@@ -174,14 +170,7 @@ class Service {
     }
   }
 
-  async updateNotification({
-    id,
-    owner,
-    tenant,
-    post_id,
-    isRead,
-    isAccepted,
-  }) {
+  async updateNotification({ id, owner, tenant, post_id, isRead, isAccepted }) {
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseId,
@@ -200,19 +189,19 @@ class Service {
     }
   }
 
-   async getNotifications(userId){
-       try {
-        return await  this.databases.listDocuments(
-            conf.appwriteDatabaseId,
-            conf.appwriteNotificationsId,
-            Query.or([Query.equal("owner",userId),Query.equal("tenant",userId)])
-        )
-       } catch (error) {
-        console.log('error in getall Notifications:',error);
-        throw(error)
-       }
-   }
-   
+  async getNotifications(userId) {
+    try {
+      return await this.databases.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteNotificationsId,
+        Query.or([Query.equal("owner", userId), Query.equal("tenant", userId)])
+      );
+    } catch (error) {
+      console.log("error in getall Notifications:", error);
+      throw error;
+    }
+  }
+
   //file upload service
 
   async uploadFile(file) {
@@ -240,6 +229,36 @@ class Service {
   getFilePreview(fileId) {
     if (fileId.fileId) fileId = fileId.fileId;
     return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+  }
+
+  //get user details...
+
+  async setUserDetails({ user_id, email }) {
+    try {
+      return await this.databases.createDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteNotificationsId,
+        user_id,
+        {
+          email,
+        }
+      );
+    } catch (error) {
+      console.log("error in createNotification::", error);
+    }
+  }
+
+  async getUserDetails(user_id) {
+    try {
+      return await this.databases.getDocument(
+        conf.appwriteDatabaseId,
+        conf.appwritePostsId,
+        user_id
+      );
+    } catch (error) {
+      console.log("error in getPost::", error);
+      return false;
+    }
   }
 }
 

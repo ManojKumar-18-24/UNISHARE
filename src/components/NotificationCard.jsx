@@ -38,7 +38,7 @@ function NotificationCard({ notification }) {
   }
 
   return (
-    <Link to={`/notification/${notification.post_id}`}>
+    <Link to={`/notification/${notification.$id}`}>
       <div className="py-8">
         <Container>
           <div className="w-full flex border rounded-xl p-4 shadow-lg">
@@ -71,15 +71,15 @@ function NotificationCard({ notification }) {
                 <p className="text-gray-700 font-medium">
                   Owner: {ownerDetails.name}
                 </p>
-                <p className="text-gray-600">
+                {/*<p className="text-gray-600">
                   Rating: {ownerDetails.rating}/5
-                </p>
+                </p>*/}
                 <p className="text-gray-700 font-medium">
                   Tenant: {tenantDetails.name}
                 </p>
-                <p className="text-gray-600">
+                {/*<p className="text-gray-600">
                   Rating: {tenantDetails.rating}/5
-                </p>
+                </p>*/}
                 {userData.id === ownerDetails.id && (
                   <p className="text-green-500 font-medium">You are the Owner</p>
                 )}

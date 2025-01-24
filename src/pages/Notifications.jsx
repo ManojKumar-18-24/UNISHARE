@@ -13,9 +13,9 @@ function Notification() {
     async function fetchNotifications() {
       try {
         setLoading(true);
-        const fetchedNotifications = await service.getNotificationsByUserId(
+        const fetchedNotifications = await service.getNotifications(
           userData.id
-        ); // Need to run a user specific query here..........
+        );
         setNotifications(fetchedNotifications);
       } catch (error) {
         console.error("Error fetching notifications:", error);

@@ -1,40 +1,59 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import service from "../appwrite/config";
 import { Button, Container } from "../components";
 import { useSelector } from "react-redux";
-import conf from "../conf/conf";
+
 /*lot off things to do */
-export default function Post(notification) {
+export default function NotificationForm(notification) {
   const [post, setPost] = useState(null);
-  const [isRead, setIsRead] = useState(false); /*for author to confirm notification*/
-  const [accepted , setIsAccepted] = useState(false); /* to show acceptance from owner to tenant*/
+  const [isaccepted , setIsAccepted] = useState(false); /* to show acceptance from owner to tenant*/
   const [isOwner, setIsOwner] = useState(false);
-  const [isTenant, setIsTetant] = useState(false); 
+  const [otherUserDetails, setOtherUserDetails] = useState(null);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.userData);
 
   useEffect(() => {
-    if(notification)
-    {
+    async function handleNotification() {
+      if (notification) {
         setPost(notification.post_id);
-        setIsRead(notification.isRead);
-        setIsAccepted(notification.post.setIsAccepted);
-        if(userData.$id === notification.owner) {
-            setIsOwner(true);
+        setIsAccepted(notification.post.isAccepted);
+  
+        if (userData.$id === notification.owner) {
+          setIsOwner(true);
+          // Fetch tenant details if the current user is the owner
+          const tenantDetails = await service.getUserDetails(notification.tenant);
+          setOtherUserDetails(tenantDetails);
+        } else if (userData.$id === notification.tenant) {
+          // Fetch owner details if the current user is the tenant
+          const ownerDetails = await service.getUserDetails(notification.owner);
+          setOtherUserDetails(ownerDetails);
         }
-        else (userData.$id === notification.tenant) {
-            setIsTetant(true);
+  
+        // Update notification if it's unread
+        if (!notification.isRead) {
+          try {
+            const updatedNotification = await service.updateNotification({
+              ...notification,
+              isRead: true,
+            });
+            console.log("Notification updated:", updatedNotification);
+          } catch (error) {
+            console.error("Failed to update notification:", error);
+          }
         }
+      } else {
+        navigate("/");
+      }
     }
-    else {
-        navigate("/")
-    }
-  }, [notification , navigate]);
+  
+    handleNotification();
+  }, [notification, userData, navigate]);
+  
 
-  const updateNotification = () => {
-    /*query.....*/ /*if(true)...setvalue*/
-  };
+  // const updateNotification = () => {
+  //   /*query.....*/ /*if(true)...setvalue*/
+  // };
 
   const deletePost = () => {
     service.deletePost(post.$id).then((status) => {
@@ -55,7 +74,7 @@ export default function Post(notification) {
             alt={post.title}
             className="rounded-xl"
           />
-          {isAuthor ? (
+          {isOwner ? (
             <div className="absolute right-6 top-6">
               <Link to={`/edit-post/${post.$id}`}>
                 <Button bgColor="bg-green-500" className="mr-3">
@@ -68,8 +87,8 @@ export default function Post(notification) {
             </div>
           ) : (
             <div className="absolute right-6 top-6">
-              <Button bgColor="bg-red-500" onClick={updateNotification}>
-                {request ? "Requested" : "Book"}
+              <Button bgColor="bg-red-500" disabled >
+                {isaccepted? "Accepted" : "Requested"}
               </Button>
             </div>
           )}
@@ -87,6 +106,17 @@ export default function Post(notification) {
           </p>
           <p className="text-gray-600">Price: ${post.price}</p>
         </div>
+
+        {isaccepted && otherUserDetails && (
+          <div className="w-full mt-6 border-t pt-4">
+            <h2 className="text-xl font-bold">Other User Details</h2>
+            <p className="text-gray-600">Name: {otherUserDetails.name}</p>
+            <p className="text-gray-600">Email: {otherUserDetails.email}</p>
+            {/*<p className="text-gray-600">
+              Phone: {otherUserDetails.phone || "N/A"}
+            </p>*/}
+          </div>
+        )}
       </Container>
     </div>
   ) : null;
