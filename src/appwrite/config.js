@@ -233,7 +233,8 @@ class Service {
 
   //get user details...
 
-  async setUserDetails({ user_id, email }) {
+  async setUserDetails( user_id, email ) {
+    console.log(user_id , email)
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
@@ -244,7 +245,7 @@ class Service {
         }
       );
     } catch (error) {
-      console.log("error in createNotification::", error);
+      console.log("error in setUserdetails::", error);
     }
   }
 
