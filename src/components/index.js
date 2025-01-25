@@ -7,6 +7,10 @@ import PostForm from "./postForm";
 import Button from "./Button";
 import NotificationCard from "./NotificationCard";
 import Protected from './AuthLayout'
+import Footer from './Footer'
+import PostCard from './PostCard'
+import Login from "./Login";
+import Signup from "./Signup";
 
 export {
     Header,
@@ -17,5 +21,9 @@ export {
     PostForm,
     Button,
     NotificationCard,
-    Protected
-}
+    Protected,
+    Footer,
+    PostCard,
+    Login,
+    Signup
+};

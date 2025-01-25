@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import NotificationCard from "../components/index";
+import {NotificationCard} from "../components/index";
 import service from "../appwrite/config"; // Service to interact with the backend
 import { useSelector } from "react-redux";
 

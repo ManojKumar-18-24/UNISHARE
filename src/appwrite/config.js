@@ -106,7 +106,7 @@ class Service {
       const currentTimeISO = new Date().toISOString();
 
       // Add a query to filter posts with starting_time > current time
-      queries.push(Query.greater("starting_time", currentTimeISO));
+      queries.push(Query.greaterThan("starting_time", currentTimeISO));
 
       // Fetch documents with the updated query
       return await this.databases.listDocuments(
@@ -237,7 +237,7 @@ class Service {
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
-        conf.appwriteNotificationsId,
+        conf.appwriteUserDataId,
         user_id,
         {
           email,
@@ -252,7 +252,7 @@ class Service {
     try {
       return await this.databases.getDocument(
         conf.appwriteDatabaseId,
-        conf.appwritePostsId,
+        conf.appwriteUserDataId,
         user_id
       );
     } catch (error) {

@@ -4,7 +4,7 @@ const conf = {
     appwriteDatabaseId : String(import.meta.env.VITE_APPWRITE_DATABASE_ID),
     appwritePostsId : String(import.meta.env.VITE_APPWRITE_POSTS_ID),
     appwriteNotificationsId : String(import.meta.env.VITE_APPWRITE_NOTIFICATIONS_ID),
-    appwritePendingRequestsId : String(import.meta.env.VITE_APPWRITE_USERDATA_ID),
+    appwriteUserDataId : String(import.meta.env.VITE_APPWRITE_USERDATA_ID),
     appwriteBucketId : String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
 }
 

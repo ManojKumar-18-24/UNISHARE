@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Container from "./index";
+import Container from "./Container";
 import service from "../appwrite/config";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";

@@ -13,6 +13,7 @@ export class AuthService {
     }
 
     async createAccount({email,password,name}){
+        console.log(conf)
         try {
             const userAccount = this.account.create(ID.unique(),email,password,name);
             service.setUserDetails(userAccount.$id,email)

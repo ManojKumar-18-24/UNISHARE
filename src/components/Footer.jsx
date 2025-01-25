@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import Logo from './index';
+import {Logo} from './index';
 function Footer() {
     return (
         <section className="relative overflow-hidden py-4 bg-gradient-to-r from-indigo-200 via-purple-100 to-pink-200 shadow-md border border-t-2 border-t-black">
