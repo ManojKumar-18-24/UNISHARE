@@ -68,7 +68,7 @@ function PostForm({ post }) {
           type="file"
           className="mb-4"
           accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("image", { required: !post && "Image is required" })}
+          {...register("image", { required: false && "Image is required" })}
         />
         {errors.image && <p className="text-red-500">{errors.image.message}</p>}
       </div>

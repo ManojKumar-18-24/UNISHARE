@@ -18,7 +18,7 @@ function Signup() {
     console.log("Data being sent to createAccount:", data); 
     try {
       const userData = await authService.createAccount(data);
-
+      console.log(userData)
       if (userData) {
         const userData = await authService.getCurrentUser();
 
