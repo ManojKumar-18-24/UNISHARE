@@ -86,7 +86,7 @@ function PostForm({ post }) {
           label="From :"
           type="datetime-local"
           className="mb-4"
-          {...register("from", {
+          {...register("starting_time", {
             required: "Start time is required",
             validate: (value) =>
               new Date(value) > new Date(currentDateTime) || "Start time must be in the future",
@@ -99,10 +99,10 @@ function PostForm({ post }) {
           label="To :"
           type="datetime-local"
           className="mb-4"
-          {...register("to", {
+          {...register("ending_time", {
             required: "End time is required",
             validate: (value) => {
-              const from = new Date(watch("from"));
+              const from = new Date(watch("starting_time"));
               const to = new Date(value);
               return to > from || "End time must be after start time";
             },

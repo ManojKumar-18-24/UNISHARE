@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const PostCard = ({ title, image, model, from, to, price }) => {
+const PostCard = ({id, title, image, model, from, to, price }) => {
   return (
+    <Link to = {`/post/${id}`} >
     <div className="flex flex-row bg-white shadow-lg rounded-lg overflow-hidden">
       {/* Image Section */}
       <div className="w-1/3">
@@ -40,6 +42,7 @@ const PostCard = ({ title, image, model, from, to, price }) => {
         </p>
       </div>
     </div>
+    </Link>
   );
 };
 

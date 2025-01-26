@@ -34,7 +34,7 @@ class Service {
           starting_time,
           ending_time,
           image,
-          price,
+          price : parseInt(price),
           userId,
         }
       );
