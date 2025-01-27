@@ -6,6 +6,7 @@ const conf = {
     appwriteNotificationsId : String(import.meta.env.VITE_APPWRITE_NOTIFICATIONS_ID),
     appwriteUserDataId : String(import.meta.env.VITE_APPWRITE_USERDATA_ID),
     appwriteBucketId : String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
+    appwriteImageId : String(import.meta.env.VITE_PLACEHOLDER_IMAGE_ID)
 }
 
 console.log('conf = ',conf);

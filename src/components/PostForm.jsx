@@ -3,6 +3,7 @@ import { Button, Input } from "./index";
 import service from "../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import conf from "../conf/conf";
 
 function PostForm({ post }) {
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
@@ -35,8 +36,15 @@ function PostForm({ post }) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      const file = await service.uploadFile(data.image[0]);
-      if (file?.$id) data.image = file.$id;
+      if(data.image?.[0]) 
+      {
+        const file = await service.uploadFile(data.image[0]);
+        if (file?.$id) data.image = file.$id;
+        else data.image = conf.appwriteImageId ;
+      }
+      else {
+          data.image = conf.appwriteImageId;
+      }
 
       const dbPost = await service.createPost({
         ...data,

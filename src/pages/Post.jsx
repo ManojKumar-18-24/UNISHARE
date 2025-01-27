@@ -30,8 +30,8 @@ export default function Post() {
 
   const triggerNotification = () => {
     /*query.....*/ /*if(true)...setvalue*/
-    let notification;
-    if(!request){
+    let notification = service.findNotification(userData.$id,post_id);
+    if(!notification){
       notification = service.createNotification(post.userId,userData.$id,post.$id)
     }
     if(notification)setRequest(true)
