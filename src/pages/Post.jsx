@@ -21,11 +21,20 @@ export default function Post() {
         if (post) setPost(post);
         else navigate("/");
       });
+
+      service.findNotification(userData.$id,post_id).then(() =>{
+        setRequest(true)
+      })
     } else navigate("/");
-  }, [post_id, navigate]);
+  }, [userData ,post_id, navigate]);
 
   const triggerNotification = () => {
     /*query.....*/ /*if(true)...setvalue*/
+    let notification;
+    if(!request){
+      notification = service.createNotification(post.userId,userData.$id,post.$id)
+    }
+    if(notification)setRequest(true)
   };
 
   const deletePost = () => {

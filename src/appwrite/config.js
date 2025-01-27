@@ -202,6 +202,20 @@ class Service {
     }
   }
 
+  async findNotification(userId,postId)
+  {
+     try {
+      return await this.databases.listDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteNotificationsId,
+        Query.and([Query.equal("tenant",userId),Query.equal("post_id",postId)])
+      )
+     } catch (error) {
+      console.log("error in finding Notifications:", error);
+      throw error;      
+     }
+  }
+
   //file upload service
 
   async uploadFile(file) {
