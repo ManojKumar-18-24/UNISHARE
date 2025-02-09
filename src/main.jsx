@@ -5,7 +5,7 @@ import App from './App.jsx'
 import { createBrowserRouter } from 'react-router-dom'
 import {Home , Login ,Signup,AddPost,EditPost ,NotificationForm,Notifications,Post } from './pages'
 import {Protected} from './components'
-import {store} from './store/store.js'
+import store from './store/store.js'
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router'
 
@@ -16,7 +16,11 @@ const router = createBrowserRouter([
     children: [
         {
             path: "/",
-            element: <Home />,
+            element: (
+                <Protected authentication>
+                    <Home />
+                </Protected>
+            )
         },
         {
             path: "/login",
