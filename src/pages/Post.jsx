@@ -8,7 +8,7 @@ import conf from "../conf/conf";
 export default function Post() {
   const [post, setPost] = useState(null);
   const [request, setRequest] = useState(false);
-  const { post_id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const userData = useSelector((state) => state.userData);
@@ -16,23 +16,26 @@ export default function Post() {
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
   useEffect(() => {
-    if (post_id) {
-      service.getPost(post_id).then((post) => {
+    if (id) {
+      service.getPost(id).then((post) => {
         if (post) setPost(post);
         else navigate("/");
       });
 
-      service.findNotification(userData.$id,post_id).then(() =>{
+      service.findNotification(userData.$id,id).then(() =>{
         setRequest(true)
       })
     } else navigate("/");
-  }, [userData ,post_id, navigate]);
+  }, [userData ,id, navigate]);
 
   const triggerNotification = () => {
     /*query.....*/ /*if(true)...setvalue*/
-    let notification = service.findNotification(userData.$id,post_id);
+    let notification = service.findNotification(userData.$id,id);
     if(!notification){
-      notification = service.createNotification(post.userId,userData.$id,post.$id)
+      const owner = post.userId
+      const tenant  = userData.$id
+      const post_id = post.$id
+      notification = service.createNotification(owner,tenant,post_id)
     }
     if(notification)setRequest(true)
   };
@@ -55,6 +58,8 @@ export default function Post() {
             src={service.getFilePreview(post.image)} // Displaying the uploaded image
             alt={post.title}
             className="rounded-xl"
+            height = "400px"
+            width="400px"
           />
           {isAuthor ? (
             <div className="absolute right-6 top-6">
@@ -81,10 +86,10 @@ export default function Post() {
           <h1 className="text-2xl font-bold">{post.title}</h1>
           <p className="text-gray-600">Model: {post.model}</p>
           <p className="text-gray-600">
-            From: {new Date(post.from).toLocaleString()}
+            From: {new Date(post.starting_time).toLocaleString()}
           </p>
           <p className="text-gray-600">
-            To: {new Date(post.to).toLocaleString()}
+            To: {new Date(post.ending_time).toLocaleString()}
           </p>
           <p className="text-gray-600">Price: ${post.price}</p>
         </div>

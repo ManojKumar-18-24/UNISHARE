@@ -205,7 +205,7 @@ class Service {
   async findNotification(userId,postId)
   {
      try {
-      return await this.databases.listDocument(
+      return await this.databases.listDocuments(
         conf.appwriteDatabaseId,
         conf.appwriteNotificationsId,
         Query.and([Query.equal("tenant",userId),Query.equal("post_id",postId)])

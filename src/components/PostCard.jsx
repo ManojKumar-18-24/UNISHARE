@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const PostCard = ({id, title, image, model, from, to, price }) => {
+import service  from "../appwrite/config";
+const PostCard = ({id, title, image, model, starting_time, ending_time, price }) => {
   return (
     <Link to = {`/post/${id}`} >
     <div className="flex flex-row bg-white shadow-lg rounded-lg overflow-hidden">
       {/* Image Section */}
       <div className="w-1/3">
         <img
-          src={image}
+          src={service.getFilePreview(image)}
           alt={title}
           className="h-full w-full object-cover"
         />
@@ -28,11 +28,11 @@ const PostCard = ({id, title, image, model, from, to, price }) => {
         <div className="flex justify-between text-sm text-gray-600 mb-2">
           <p>
             <span className="font-semibold text-gray-700">From:</span>{" "}
-            {new Date(from).toLocaleString()}
+            {new Date(starting_time).toLocaleString()}
           </p>
           <p>
             <span className="font-semibold text-gray-700">To:</span>{" "}
-            {new Date(to).toLocaleString()}
+            {new Date(ending_time).toLocaleString()}
           </p>
         </div>
 
