@@ -9,9 +9,9 @@ function Protected({children,authentication = true}) {
     const authStatus = useSelector( state => state.status)
 
     useEffect(() => {
-        console.log('in authlayout:' ,authStatus)
+        // console.log('in authlayout:' ,authStatus)
         const user  = authService.getCurrentUser();
-        {console.log('in auth::::',user)}
+        // {console.log('in auth::::',user)}
         if(authentication && authStatus !== authentication)
         {
             navigate('/login')

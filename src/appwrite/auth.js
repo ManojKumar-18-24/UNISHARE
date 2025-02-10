@@ -13,15 +13,15 @@ export class AuthService {
     }
 
     async createAccount({email,password,name}){
-        console.log(conf)
-        console.log(import.meta.env.VITE_APPWRITE_URL);
+        // console.log(conf)
+        // console.log(import.meta.env.VITE_APPWRITE_URL);
 
         try {
             const userAccount = await this.account.create(ID.unique(),email,password,name);
             
             if(userAccount)
             {
-                console.log(userAccount.$id,userAccount.email)
+                // console.log(userAccount.$id,userAccount.email)
                 const doc = await service.setUserDetails(userAccount.$id,userAccount.email)
                 return this.login({email,password});
             }

@@ -12,7 +12,7 @@ function NotificationCard({ notification }) {
 
   useEffect(() => {
     // Fetch post details based on notification.post_id
-    console.log(notification)
+    // console.log(notification)
     async function fetchPostDetails() {
       const fetchedPost = await service.getPost(notification?.post_id);
       setPost(fetchedPost);
@@ -41,7 +41,7 @@ function NotificationCard({ notification }) {
   }
 
   return (
-    <Link to={`/notification/${notification.$id}`}>
+    <Link to={`/notifications/${notification.$id}`}>
       <div className="py-8">
         <Container>
           <div className="w-full flex border rounded-xl p-4 shadow-lg">

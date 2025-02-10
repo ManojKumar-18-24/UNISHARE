@@ -6,6 +6,7 @@ import Post from './Post'
 import  NotificationForm from './NotificationForm'
 import Notifications from './Notifications'
 import AddPost from './AddPost'
+import NotificationPage from './NotificationPage'
 export {
     Home,
     EditPost,
@@ -14,5 +15,6 @@ export {
     Post,
     NotificationForm,
     Notifications,
-    AddPost
+    AddPost,
+    NotificationPage
 }

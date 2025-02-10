@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter } from 'react-router-dom'
-import {Home , Login ,Signup,AddPost,EditPost ,NotificationForm,Notifications,Post } from './pages'
+import {Home , Login ,Signup,AddPost,EditPost ,NotificationForm,Notifications,Post ,NotificationPage} from './pages'
 import {Protected} from './components'
 import store from './store/store.js'
 import { Provider } from 'react-redux'
@@ -62,11 +62,11 @@ const router = createBrowserRouter([
             ),
         },
         {
-            path: "/notifications/:notification_id",
+            path: "/notifications/:id",
             element: (
                 <Protected authentication>
                     {" "}
-                    <NotificationForm />
+                    <NotificationPage />
                 </Protected>
             ),
         },
