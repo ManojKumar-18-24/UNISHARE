@@ -15,10 +15,13 @@ function LogoutBtn() {
     }
     return (
         <button
-        className="px-8 py-3 text-lg font-medium text-gray-800 bg-white rounded-full shadow-lg 
-                 hover:bg-gradient-to-r hover:from-blue-300 hover:to-purple-400 hover:text-white transition-all duration-300 transform hover:scale-105"
-        onClick={logoutHandler}
-        >Logout</button>
+           className="px-8 py-3 text-lg font-medium text-gray-800 bg-white rounded-xl shadow-lg 
+           hover:bg-gradient-to-r hover:from-blue-300 hover:to-purple-400 hover:text-white 
+           transition-all duration-300 transform hover:scale-105"
+           onClick={logoutHandler}
+        >
+          Logout
+        </button>
     )
 }
 

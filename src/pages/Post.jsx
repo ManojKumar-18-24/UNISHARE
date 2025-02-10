@@ -11,7 +11,7 @@ export default function Post() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const userData = useSelector((state) => state.userData);
+  const { userData } = useSelector((state) => state.userData);
 
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -21,23 +21,51 @@ export default function Post() {
         if (post) setPost(post);
         else navigate("/");
       });
-
-      service.findNotification(userData.$id,id).then(() =>{
-        setRequest(true)
-      })
+      console.log("in post.jsx:", userData);
+      
     } else navigate("/");
-  }, [userData ,id, navigate]);
 
-  const triggerNotification = () => {
-    /*query.....*/ /*if(true)...setvalue*/
-    let notification = service.findNotification(userData.$id,id);
-    if(!notification){
-      const owner = post.userId
-      const tenant  = userData.$id
-      const post_id = post.$id
-      notification = service.createNotification(owner,tenant,post_id)
+    const Booked = async() =>{
+      
+      const userId = userData.$id;
+      const postId = id; 
+
+      let notification = await service.findNotification(userId,postId)
+
+      if(notification.documents.length > 0 ){
+        setRequest(true)
+      }
     }
-    if(notification)setRequest(true)
+
+    Booked()
+  }, [userData, id, navigate]);
+
+  const triggerNotification = async () => {
+    const userId = userData.$id;
+    const postId = id;
+
+    let notification = await service.findNotification(userId, postId);
+
+    if (notification.documents.length == 0) {
+      // Create notification if not found
+      const owner = post.userId;
+      const tenant = userData.$id;
+      const post_id = post.$id;
+
+      console.log(owner,tenant,post_id)
+      try {
+        let newNotification = await service.createNotification(
+         { owner,
+          tenant,
+          post_id}
+        );
+        if (newNotification) {
+          setRequest(true);
+        }
+      } catch (createError) {
+        console.error("Error creating notification:", createError);
+      }
+    }
   };
 
   const deletePost = () => {
@@ -58,7 +86,7 @@ export default function Post() {
             src={service.getFilePreview(post.image)} // Displaying the uploaded image
             alt={post.title}
             className="rounded-xl"
-            height = "400px"
+            height="400px"
             width="400px"
           />
           {isAuthor ? (

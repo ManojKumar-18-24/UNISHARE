@@ -8,12 +8,13 @@ function NotificationCard({ notification }) {
   const [post, setPost] = useState(null);
   const [ownerDetails, setOwnerDetails] = useState(null);
   const [tenantDetails, setTenantDetails] = useState(null);
-  const userData = useSelector((state) => state.userData);
+  const {userData} = useSelector((state) => state.userData);
 
   useEffect(() => {
     // Fetch post details based on notification.post_id
+    console.log(notification)
     async function fetchPostDetails() {
-      const fetchedPost = await service.getPostById(notification?.post_id);
+      const fetchedPost = await service.getPost(notification?.post_id);
       setPost(fetchedPost);
     }
 
@@ -21,8 +22,10 @@ function NotificationCard({ notification }) {
     async function fetchUserDetails() {
       //const owner = await service.getUserById(notification?.owner);
       //const tenant = await service.getUserById(notification?.tenant);
-      setOwnerDetails(notification.owner);
-      setTenantDetails(notification.tenant);
+      const owner = await service.getUserDetails(notification.owner)
+      const tenant = await service.getUserDetails(notification.tenant)
+      setOwnerDetails(owner);
+      setTenantDetails(tenant);
     }
 
     if (notification?.post_id) {
@@ -58,10 +61,10 @@ function NotificationCard({ notification }) {
                 Model: {post.model}
               </p>
               <p className="text-gray-600 mb-1">
-                From: {new Date(post.from).toLocaleString()}
+                From: {new Date(post.starting_time).toLocaleString()}
               </p>
               <p className="text-gray-600 mb-1">
-                To: {new Date(post.to).toLocaleString()}
+                To: {new Date(post.ending_time).toLocaleString()}
               </p>
               <p className="text-gray-600 mb-4">Price: ${post.price}</p>
 
@@ -69,21 +72,21 @@ function NotificationCard({ notification }) {
               <div className="mt-4">
                 <h2 className="text-lg font-bold">User Details</h2>
                 <p className="text-gray-700 font-medium">
-                  Owner: {ownerDetails.name}
+                  Owner: {ownerDetails.email}
                 </p>
                 {/*<p className="text-gray-600">
                   Rating: {ownerDetails.rating}/5
                 </p>*/}
                 <p className="text-gray-700 font-medium">
-                  Tenant: {tenantDetails.name}
+                  Tenant: {tenantDetails.email}
                 </p>
                 {/*<p className="text-gray-600">
                   Rating: {tenantDetails.rating}/5
                 </p>*/}
-                {userData.id === ownerDetails.id && (
+                {userData.$id === ownerDetails.$id && (
                   <p className="text-green-500 font-medium">You are the Owner</p>
                 )}
-                {userData.id === tenantDetails.id && (
+                {userData.$id === tenantDetails.$id && (
                   <p className="text-blue-500 font-medium">You are the Tenant</p>
                 )}
               </div>

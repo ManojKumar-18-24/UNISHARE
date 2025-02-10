@@ -6,17 +6,19 @@ import { useSelector } from "react-redux";
 function Notification() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userData = useSelector((state) => state.userData); // Get user data from Redux
+  const {userData} = useSelector((state) => state.userData); // Get user data from Redux
 
   useEffect(() => {
     // Fetch notifications for the logged-in user
     async function fetchNotifications() {
       try {
         setLoading(true);
+        const userId = userData.$id;
         const fetchedNotifications = await service.getNotifications(
-          userData.id
+          userId
         );
-        setNotifications(fetchedNotifications);
+        console.log(fetchNotifications)
+        setNotifications(fetchedNotifications.documents);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       } finally {
@@ -24,7 +26,7 @@ function Notification() {
       }
     }
 
-    if (userData?.id) {
+    if (userData?.$id) {
       fetchNotifications();
     }
   }, [userData]);
@@ -42,7 +44,7 @@ function Notification() {
       <h1 className="text-2xl font-bold mb-4">Notifications</h1>
       <div className="space-y-4">
         {notifications.map((notification) => (
-          <NotificationCard key={notification.id} notification={notification} />
+          <NotificationCard key={notification.$id} notification={notification} />
         ))}
       </div>
     </div>

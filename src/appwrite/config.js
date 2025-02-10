@@ -154,6 +154,7 @@ class Service {
   //notification service
 
   async createNotification({ owner, tenant, post_id }) {
+    console.log('in create notifi:',owner,tenant,post_id)
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
@@ -194,7 +195,7 @@ class Service {
       return await this.databases.listDocuments(
         conf.appwriteDatabaseId,
         conf.appwriteNotificationsId,
-        Query.or([Query.equal("owner", userId), Query.equal("tenant", userId)])
+        [Query.or([Query.equal("owner", userId), Query.equal("tenant", userId)])]
       );
     } catch (error) {
       console.log("error in getall Notifications:", error);
@@ -203,12 +204,17 @@ class Service {
   }
 
   async findNotification(userId,postId)
-  {
+  {   console.log("userId:", userId, "postId:", postId);
+
+    const queries = [
+      Query.equal("tenant", userId),
+      Query.equal("post_id", postId)
+  ];
      try {
       return await this.databases.listDocuments(
         conf.appwriteDatabaseId,
         conf.appwriteNotificationsId,
-        Query.and([Query.equal("tenant",userId),Query.equal("post_id",postId)])
+        queries 
       )
      } catch (error) {
       console.log("error in finding Notifications:", error);
